@@ -1,54 +1,61 @@
 let nome = prompt("Qual é o seu nome?");
 
+const objUsername = 
+{
+     name: nome
+    
+}
 
 
-
-// blz, preciso criar uma recrisão no meu banco para que ele armazene meu user, preciso criar uma var que armazene meu username 
-
-
-const username = {name:nome}
-
-// criar a requisição, axios e depois post
+let mensagensCorpo = document.querySelector('.mensagens');
+const mensagem = document.querySelector('footer input');
 
 verifyUser();
 
-function verifyUser(){
-    const pull = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', username);
+function verifyUser() {
+    const resposta = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', objUsername);
 
-    pull
-    .then(verifyUser);
-    console.log(username);
+   
+
+    resposta
+    .then(usuarioVerificado);
+    
+
+}
+
+function conection() {
+
+    const mantendoConexao = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', objUsername);
+
+    mantendoConexao.then()
+    mantendoConexao.catch()
 
 }
 
 
 
-
-
-function pullServMsg(){
-    const promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-
-    promise.then(sucessoConversa);
-    promise.catch(erroConversa);
-}
-
-function erroConversa(){
-    console.log("erro");
-}
-
-function sucessoConversa(pull){
+function sucessoConversa(resposta) {
     let mensagensCorpo = document.querySelector('.mensagens');
-    mensagensCorpo.innerHTML ='';
+    mensagensCorpo.innerHTML = '';
 
-    for(i=0; i<300;i++){
-        let hora = pull.data[i].time;
-        let de = pull.data[i].from;
-        let para = pull.data[i].to;
-        let textoMensagem = pull.data[i].text;
+    for (i = 0; i < 100; i++) {
+        let hora = resposta.data[i].time;
+        let de = resposta.data[i].from;
+        let para = resposta.data[i].to;
+        let textoMensagem = resposta.data[i].text;
         let tipo = resposta.data[i].type;
 
-        mensagensCorpo.innerHTML +=`<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem}</div> `;
+        if (tipo === 'status' || tipo === 'message' ){
+        mensagensCorpo.innerHTML += `<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem}</div>  <!-- fechamento entra na sala -->`;
 
+        }
+
+
+        if (tipo === 'private_message' && (de === para || para === de)) {
+            mensagensCorpo.innerHTML += `<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem}</div>  <!-- fechamento entra na sala -->`;
+
+
+        }
 
     }
 
@@ -56,8 +63,58 @@ function sucessoConversa(pull){
 
 }
 
+function erroConversa(erro) {
+    console.log("erro");
+    console.log(erro);
+    window.location.reload();
+}
 
-let mensagensCorpo = document.querySelector('.mensagens');
+function batePapoServ() {
+    const promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+
+    promise.then(sucessoConversa);
+    promise.catch(erroConversa);
+}
 
 
-// a funcao sucessoCOnversa vai precisar passar tudo que tem na conversa, hora nome e etc, preciso pensar niss
+function enviarMensagemParaChat(){
+
+
+    const msg = {
+        from: nome,
+        to: "Todos",
+        text: mensagem.value,
+        type: "message" 
+    }
+
+    const enviar = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', msg);
+
+    mensagem.value = "";
+
+    enviar.then(pegarConversaNoServidor);
+    enviar.catch(erroConversa);
+}
+
+
+
+function usuarioVerificado (){
+   
+    
+
+    batePapoServ()
+    setInterval(function (){ 
+        batePapoServ()
+    } ,3000)
+    
+    setInterval(conection, 5000);
+}
+
+document.addEventListener("keypress", function (e){
+
+
+if (e.key === "Enter") {
+
+    const btn = document.querySelector('footer img')
+    btn.click();
+}
+})
