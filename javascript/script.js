@@ -107,7 +107,7 @@ function usuarioVerificado (){
         batePapoServ()
     } ,3000)
     
-    setInterval(conection, 1000);
+    setInterval(conection, 5000);
 }
 
 document.addEventListener("keypress", function (e){
