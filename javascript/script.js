@@ -10,15 +10,12 @@ const objUsername =
 let mensagensCorpo = document.querySelector('.mensagens');
 const mensagem = document.querySelector('footer input');
 
-verifyUser();
+
 
 function verifyUser() {
     const resposta = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', objUsername);
-
-   
-
-    resposta
-    .then(usuarioVerificado);
+    resposta.then(usuarioVerificado);
+    
     
 
 }
@@ -91,9 +88,11 @@ function enviarMensagemParaChat(){
 
     mensagem.value = "";
 
-    enviar.then(pegarConversaNoServidor);
+    enviar.then(batePapoServ);
     enviar.catch(erroConversa);
-    batePapoServ();
+     
+    verifyUser() ;
+     
 }
 
 
@@ -119,3 +118,5 @@ if (e.key === "Enter") {
     btn.click();
 }
 })
+
+verifyUser();
