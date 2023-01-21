@@ -46,13 +46,13 @@ function sucessoConversa(resposta) {
         let tipo = resposta.data[i].type;
 
         if (tipo === 'status' || tipo === 'message' ){
-        mensagensCorpo.innerHTML += `<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem}</div>  <!-- fechamento entra na sala -->`;
+        mensagensCorpo.innerHTML += `<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem}</div> `;
 
         }
 
 
         if (tipo === 'private_message' && (de === para || para === de)) {
-            mensagensCorpo.innerHTML += `<div class="private_message" data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem} " </div>  <!-- fechamento entra na sala -->`;
+            mensagensCorpo.innerHTML += `<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem} " </div>  `;
 
 
         }
