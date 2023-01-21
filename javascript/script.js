@@ -93,6 +93,7 @@ function enviarMensagemParaChat(){
 
     enviar.then(pegarConversaNoServidor);
     enviar.catch(erroConversa);
+    batePapoServ();
 }
 
 
