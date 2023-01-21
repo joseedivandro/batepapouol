@@ -51,7 +51,7 @@ function sucessoConversa(resposta) {
         }
 
 
-        if (tipo === 'private_message' && (de === para || para === de)) {
+        if (tipo === 'private_message' && (nome === para || nome === de)) {
             mensagensCorpo.innerHTML += `<div data-test="message" class="${tipo}"> (${hora}) ${de} para ${para}:${textoMensagem} " </div>  `;
 
 
