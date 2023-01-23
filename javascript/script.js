@@ -14,7 +14,7 @@ const mensagem = document.querySelector('footer input');
 
 function verifyUser() {
     const resposta = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', objUsername);
-    resposta.then(usuarioVerificado);
+    resposta.then(usuarioCorreto);
     
     
 
@@ -97,7 +97,7 @@ function enviarMensagemParaChat(){
 
 
 
-function usuarioVerificado (){
+function usuarioCorreto (){
    
     
 
